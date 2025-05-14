@@ -1,4 +1,6 @@
 import { Component, OnInit, Output } from '@angular/core';
+import { CandidatoDetail } from './candidatos-detail';
+import { CandidatoService } from '../candidato.service';
 
 @Component({
   selector: 'app-candidatos-list',
@@ -59,9 +61,26 @@ export class CandidatosListComponent implements OnInit {
     this.seleccionado = true;
   }
 
-  constructor() { }
+  Candidatos: Array<CandidatoDetail> = [];
+  selectedAuthor!: CandidatoDetail;
+  selected: boolean = false;
 
-  ngOnInit(): void {
-      
+  constructor(private candidatoService: CandidatoService) { }
+
+  getAuthors(){
+    this.candidatoService.getcandidatos().subscribe(candidatos=>{
+      this.candidatos = candidatos;
+    })
   }
+
+  selectAuthor(candidato: CandidatoDetail){
+    this.selectedAuthor = candidato;
+    this.selected = true;
+  }
+
+  ngOnInit() {
+    this.getAuthors();
+  }
+
+  
 }
